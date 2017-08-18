@@ -1,22 +1,25 @@
 import qt
 import __main__
 
-def initSlicer(layoutWidget):
-  layoutWidget.setMRMLScene(slicer.mrmlScene)
-  layoutWidget.setLayout(slicer.vtkMRMLLayoutNode.SlicerLayoutOneUp3DView)
+def initSlicer(layoutManager, layoutWidget):
+  layoutManager.setMRMLScene(slicer.mrmlScene) 
+  layoutManager.setScriptedDisplayableManagerDirectory(slicer.app.slicerHome + "/bin/Python/mrmlDisplayableManager") 
+  layoutWidget.setLayoutManager(layoutManager) 
+  slicer.app.setLayoutManager(layoutManager) 
+  layoutWidget.setLayout(slicer.vtkMRMLLayoutNode.SlicerLayoutFourUpView) 
+  return layoutWidget
   
 ########################################################
 ## BEGIN
 ######################################################## 
 
-slicerLayoutWidget = slicer.qMRMLLayoutWidget()
-initSlicer(slicerLayoutWidget)
+mainWidget    = qt.QWidget()
+layoutWidget  = initSlicer(slicer.qSlicerLayoutManager(), slicer.qMRMLLayoutWidget())
 
 # Layout
-mainWidget  = qt.QWidget()
 vlayout     = qt.QVBoxLayout()
 mainWidget.setLayout(vlayout)
-vlayout.addWidget(slicerLayoutWidget)
+vlayout.addWidget(layoutWidget)
 
 # Show
 mainWidget.show()
