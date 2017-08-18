@@ -1,4 +1,4 @@
-## RUn
+## Run
 
 ```shell
 bash bootstrap.sh
